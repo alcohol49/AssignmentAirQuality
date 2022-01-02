@@ -12,17 +12,23 @@ class MainFragment : Fragment(R.layout.main_fragment) {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    private val adapter by lazy { RecordAdapter() }
+    private val topAdapter by lazy { TopRecordAdapter() }
+    private val bottomAdapter by lazy { RecordAdapter() }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
+        view.findViewById<RecyclerView>(R.id.top_recycler_view).adapter = topAdapter
+        view.findViewById<RecyclerView>(R.id.bottom_recycler_view).adapter = bottomAdapter
 
-        viewModel.recordsLiveData.observe(viewLifecycleOwner) {
-            Log.d(TAG, "onViewCreated: $it")
-            adapter.submitList(it)
+        viewModel.apply {
+            topRecordsLiveData.observe(viewLifecycleOwner) {
+                topAdapter.submitList(it)
+            }
+            bottomRecordsLiveData.observe(viewLifecycleOwner) {
+                bottomAdapter.submitList(it)
+            }
         }
     }
 

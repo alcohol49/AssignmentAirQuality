@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mch.ubiquiti.R
 import com.mch.ubiquiti.data.Record
 
-class RecordViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(R.layout.item_vertical_record, parent, false)
+class TopRecordViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+    LayoutInflater.from(parent.context).inflate(R.layout.item_horizontal_record, parent, false)
 ) {
 
     private val idView = itemView.findViewById<TextView>(R.id.site_id)
@@ -28,18 +28,7 @@ class RecordViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             nameView.text = siteName
             countryView.text = county
             pm25View.text = pm25
-
-            if (status != "良好") {
-                arrow.isVisible = true
-                statusView.text = status
-                itemView.setOnClickListener {
-                    Toast.makeText(itemView.context, "外面是很危險的！", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                arrow.isVisible = false
-                statusView.text = "The status is good, we want to go out to have fun"
-                itemView.isClickable = false
-            }
+            statusView.text = status
         }
     }
 }
