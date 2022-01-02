@@ -19,7 +19,6 @@ class TopRecordViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val countryView = itemView.findViewById<TextView>(R.id.country)
     private val pm25View = itemView.findViewById<TextView>(R.id.pm25)
     private val statusView = itemView.findViewById<TextView>(R.id.status)
-    private val arrow = itemView.findViewById<View>(R.id.next)
 
 
     fun onBind(record: Record) {
