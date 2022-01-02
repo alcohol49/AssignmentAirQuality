@@ -8,5 +8,5 @@ class UbiquitiApp: Application() {
 
     private fun getWebService() = WebService.create()
 
-    fun getRepository() = DataRepository(getWebService())
+    fun getRepository() = DataRepository.getInstance(getWebService())
 }

@@ -14,9 +14,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/menu"
+            app:title="空氣污染"
+            app:titleTextColor="?colorOnPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
