@@ -25,9 +25,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         view.apply {
             findViewById<View>(R.id.back).setOnClickListener { findNavController().popBackStack() }
-            findViewById<TextInputEditText>(R.id.edit_text).doOnTextChanged { text, _, _, count ->
-                Log.d(TAG, "onChange: $text, $count")
-                findViewById<TextView>(R.id.empty_info).isVisible = count == 0
+            findViewById<TextInputEditText>(R.id.edit_text).doOnTextChanged { text, _, _, _ ->
+                findViewById<TextView>(R.id.empty_info).isVisible = text?.length == 0
                 viewModel.keyLiveData.postValue(text)
             }
             findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
