@@ -33,7 +33,7 @@ class RecordViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                 arrow.isVisible = true
                 statusView.text = status
                 itemView.setOnClickListener {
-                    Toast.makeText(itemView.context, "外面是很危險的！", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(itemView.context, "空氣不是太好 \uD83D\uDE2E", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 arrow.isVisible = false
