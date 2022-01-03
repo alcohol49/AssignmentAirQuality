@@ -1,27 +1,33 @@
 package com.mch.ubiquiti.ui
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.mch.ubiquiti.UbiquitiApp
-import com.mch.ubiquiti.data.Record
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository by lazy { getApplication<UbiquitiApp>().getRepository() }
 
-    val topRecordsLiveData = MutableLiveData<List<Record>>()
-    val bottomRecordsLiveData = MutableLiveData<List<Record>>()
+    val topRecordsLiveData = repository.getRecords().switchMap { list ->
+        liveData {
+            val value = list.filter { it.pm25.isNotEmpty() && it.pm25.toInt() <= THRESHOLD }
+            emit(value)
+        }
+    }
+    val bottomRecordsLiveData = repository.getRecords().switchMap { list ->
+        liveData {
+            val value = list.filter { it.pm25.isNotEmpty() && it.pm25.toInt() > THRESHOLD }
+            emit(value)
+        }
+    }
 
     init {
         viewModelScope.launch {
-            val raw = repository.fetch()
-            topRecordsLiveData.postValue(
-                raw.filter { it.pm25.isNotEmpty() && it.pm25.toInt() <= THRESHOLD }
-            )
-            bottomRecordsLiveData.postValue(
-                raw.filter { it.pm25.isNotEmpty() && it.pm25.toInt() > THRESHOLD }
-            )
+            repository.fetch()
         }
     }
 

@@ -3,29 +3,17 @@ package com.mch.ubiquiti.data
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class DataRepository private constructor(
+class DataRepository(
     private val webService: WebService,
+    private val recordDao: RecordDao
 ) {
 
-    private var cache = emptyList<Record>()
+    fun getRecords() = recordDao.getRecords()
+
+    fun getRecords(key: String) = recordDao.getRecords(key)
 
     suspend fun fetch() = withContext(Dispatchers.IO) {
-        if (cache.isEmpty()) {
-            cache = webService.fetch().records
-        }
-        cache
-    }
-
-
-    companion object {
-
-        @Volatile
-        private var instance: DataRepository? = null
-
-        fun getInstance(webService: WebService) = instance ?: synchronized(this) {
-            instance ?: DataRepository(webService).also {
-                instance = it
-            }
-        }
+        val list = webService.fetch().records
+        recordDao.insertAll(list)
     }
 }

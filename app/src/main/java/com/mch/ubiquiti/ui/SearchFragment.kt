@@ -36,7 +36,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 adapter.submitList(it)
 
                 view.findViewById<TextView>(R.id.search_info).apply {
-                    isVisible = it.isEmpty() && keyLiveData.value?.isNotEmpty() == true
+                    isVisible = it.isNullOrEmpty() && keyLiveData.value?.isNotEmpty() == true
                     text = "找不到「${keyLiveData.value}」相關的空污資訊"
                 }
             }
