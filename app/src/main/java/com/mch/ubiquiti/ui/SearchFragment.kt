@@ -1,7 +1,6 @@
 package com.mch.ubiquiti.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -17,7 +16,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val viewModel by viewModels<SearchViewModel>()
 
-    private val adapter by lazy { RecordAdapter() }
+    private val adapter by lazy { RecordListAdapter() }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -5,13 +5,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.mch.ubiquiti.data.Record
 
-class RecordAdapter : ListAdapter<Record, RecordViewHolder>(DIFF_CALLBACK) {
+class RecordListAdapter : ListAdapter<Record, RecordListViewHolder>(DIFF_CALLBACK) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordViewHolder {
-        return RecordViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordListViewHolder {
+        return RecordListViewHolder(parent)
     }
 
-    override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecordListViewHolder, position: Int) {
         holder.onBind(getItem(position))
     }
 

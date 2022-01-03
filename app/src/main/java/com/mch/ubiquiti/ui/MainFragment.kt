@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.mch.ubiquiti.R
@@ -13,8 +14,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    private val topAdapter by lazy { TopRecordAdapter() }
-    private val bottomAdapter by lazy { RecordAdapter() }
+    private val firstAdapter by lazy { HorizontalAdapter(viewModel) }
+    private val secondAdapter by lazy { RecordListAdapter() }
+    private val adapter by lazy { ConcatAdapter(firstAdapter, secondAdapter) }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,16 +32,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     else -> false
                 }
             }
-            findViewById<RecyclerView>(R.id.top_recycler_view).adapter = topAdapter
-            findViewById<RecyclerView>(R.id.bottom_recycler_view).adapter = bottomAdapter
+            findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
         }
 
         viewModel.apply {
             topRecordsLiveData.observe(viewLifecycleOwner) {
-                topAdapter.submitList(it)
+                firstAdapter.notifyItemChanged(0)
             }
             bottomRecordsLiveData.observe(viewLifecycleOwner) {
-                bottomAdapter.submitList(it)
+                secondAdapter.submitList(it)
             }
         }
     }
