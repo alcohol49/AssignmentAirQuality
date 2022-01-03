@@ -17,10 +17,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val raw = repository.fetch()
             topRecordsLiveData.postValue(
-                raw.filter { it.pm25.toInt() <= THRESHOLD }
+                raw.filter { it.pm25.isNotEmpty() && it.pm25.toInt() <= THRESHOLD }
             )
             bottomRecordsLiveData.postValue(
-                raw.filter { it.pm25.toInt() > THRESHOLD }
+                raw.filter { it.pm25.isNotEmpty() && it.pm25.toInt() > THRESHOLD }
             )
         }
     }
