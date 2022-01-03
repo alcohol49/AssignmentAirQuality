@@ -1,20 +1,19 @@
 # 串接政府公開 API，呈現空污資料
 
-- threshold 設定為 20。30 的話上下資料不太平均。
+- threshold 設定為 20 資料會分布的比較平均。
 
 # Data
 - Fetch with Retrofit and Gson converter
-- 資料在 app lifecycle 內僅抓一次。藉由 repository 保存 in-memory cache。
-- 透過 AndroidViewModel 取得 Application 避免 context leak & 後續擴充 context 相關的資料 (e.g. database)
+- 資料會在 MainViewModel init 時抓取一次，保存在 in-memory 的 DB 內
+- 透過 room 的協助產生 LiveData 建立 observer pattern
 
 # UI
 ## MainFragment
-- 兩個 RecyclerView 各自獨立，擁有各自的 adapter 與 view holder
-- 由 ViewModel 抓取資料並產生各自的 list data
-- Layout 的需求可透過 Constraint Layout 的特性達成
+- 透過 Concat Adapter 將上下兩種相接。上方在 ViewHolder 內再建立一 RecyclerView 放置橫向 items
+- records 由 DB 取出後透過 switchMap 方法轉為上下各自需要的 data list
+- Layout 的需求透過 Constraint Layout 的特性達成
 ## SearchFragment
-- 用 EditText 的 onTextChange 監聽輸入資料，透過 switchMap 來處理字串的比對。當 input 改變時也立刻改變結果。
-- 用相同的 ViewHolder 
+- 用 EditText 的 onTextChange 監聽輸入資料，透過 switchMap 來處理字串的比對，並替換 sql query 取得 LiveData。當 input 改變時也立刻改變結果。
 
 ![](device-2022-01-02-140125.png)
 ![](device-2022-01-02-140154.png)
