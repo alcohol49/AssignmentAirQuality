@@ -12,13 +12,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository by lazy { getApplication<UbiquitiApp>().getRepository() }
 
-    val topRecordsLiveData = repository.getRecords().switchMap { list ->
+    private val records = repository.getRecords()
+
+    val topRecordsLiveData = records.switchMap { list ->
         liveData {
             val value = list.filter { it.pm25.isNotEmpty() && it.pm25.toInt() <= THRESHOLD }
             emit(value)
         }
     }
-    val bottomRecordsLiveData = repository.getRecords().switchMap { list ->
+    val bottomRecordsLiveData = records.switchMap { list ->
         liveData {
             val value = list.filter { it.pm25.isNotEmpty() && it.pm25.toInt() > THRESHOLD }
             emit(value)
